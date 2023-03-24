@@ -1,11 +1,6 @@
-const express = require("express");
 const { google } = require("googleapis");
 
-const app = express();
-
-
-app.get("/", async (req, res) => {
-    
+async function getSpreadsheetData() {
     const auth = new google.auth.GoogleAuth({
         keyFile: "credentials.json",
         scopes: "https://www.googleapis.com/auth/spreadsheets",
@@ -18,7 +13,7 @@ app.get("/", async (req, res) => {
     const googleSheets = google.sheets({ version: "v4", auth: client });
 
     // take from sheet link
-    const spreadsheetId = "тут айдішка з посилання на файл";
+    const spreadsheetId = "тут лінк";
 
     // Get metadata about spreadsheet
     const metaData = await googleSheets.spreadsheets.get({
@@ -33,7 +28,7 @@ app.get("/", async (req, res) => {
         range: "Лист1",
     });
 
-    res.send(getRows.data);
-});
+    console.log(getRows.data);
+};
 
-app.listen(3000, (req, res) => console.log("running on 3000"));
+getSpreadsheetData()
